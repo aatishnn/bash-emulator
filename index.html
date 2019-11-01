@@ -127,7 +127,8 @@
         completeFunction(beforeCursor).then(function (completion) {
           if (completion) {
             input.value = completion
-            input.setSelectionRange(cursorPosition, cursorPosition)
+            var endCursorPosition = completion.length;
+            input.setSelectionRange(endCursorPosition, endCursorPosition)
           }
         })
       }
