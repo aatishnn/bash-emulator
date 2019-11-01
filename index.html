@@ -97,6 +97,7 @@
       var ENTER = 13
       var UP = 38
       var DOWN = 40
+      var TAB = 9
 
       function log (result) {
         if (result) {
@@ -116,6 +117,7 @@
       var completeFunctions = {}
       completeFunctions[UP] = emulator.completeUp
       completeFunctions[DOWN] = emulator.completeDown
+      completeFunctions[TAB] = emulator.completeTab
 
       function complete (direction) {
         var completeFunction = completeFunctions[direction]
@@ -137,7 +139,7 @@
         if (e.altKey || e.metaKey || e.shiftKey || e.ctrlKey) {
           return
         }
-        if (e.which === UP || e.which === DOWN) {
+        if (e.which === UP || e.which === DOWN || e.which === TAB) {
           e.preventDefault()
           complete(e.which)
         }

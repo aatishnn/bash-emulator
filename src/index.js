@@ -112,7 +112,7 @@ function bashEmulator (initialState) {
         return Promise.reject(normalizedPath + ': No such file or directory')
       }
       if (state.fileSystem[normalizedPath]['type'] === 'file') {
-        return Promise.reject("Not a directory");
+        return Promise.reject("cd: not a directory: " + target);
       }
       state.workingDirectory = normalizedPath
       return Promise.resolve()
@@ -266,6 +266,37 @@ function bashEmulator (initialState) {
       }
       completion.index--
       return Promise.resolve(completion.list[completion.index])
+    },
+
+    completeTab: function(input) {
+
+      console.log(state.fileSystem);
+      
+      var splittedInput = input.split(" ")
+      var completion = input
+      if (splittedInput.length == 1) {
+        // command completion
+        var matches = Object.keys(commands).filter(function(c) { 
+          return c.startsWith(splittedInput[0])
+        })
+        // return the command if it's the only one match. Add a 
+        // space at the end so people can start typing arguments
+        if (matches.length === 1) completion = matches[0] + " ";
+        return Promise.resolve(completion)
+      }
+      else if (splittedInput.length > 1) {
+        // file completion
+        return emulator.readDir(state.workingDirectory).then(function(contents) {
+          var matches = contents.filter(function(c) { 
+            return c.startsWith(splittedInput[splittedInput.length -1])
+          })
+          if (matches.length === 1) {
+            splittedInput[splittedInput.length - 1] = matches[0];
+            return splittedInput.join(" ")
+          }
+          else return input
+        })
+      }     
     }
   }
 
