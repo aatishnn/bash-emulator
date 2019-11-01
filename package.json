@@ -13,7 +13,8 @@
     "test": "npm run lint && npm run cover",
     "lint": "standard",
     "cover": "istanbul cover --report html test/index.js && npm run check && echo 'For more see: coverage/index.html'",
-    "check": "istanbul check-coverage --statements 95"
+    "check": "istanbul check-coverage --statements 95",
+    "watch": "watch 'npm run build'"
   },
   "keywords": [
     "bash",
@@ -43,6 +44,7 @@
     "istanbul": "^0.4.3",
     "standard": "^8.0.0",
     "tape": "^4.5.1",
-    "uglify-js": "^3.0.4"
+    "uglify-js": "^3.0.4",
+    "watch": "^1.0.2"
   }
 }
