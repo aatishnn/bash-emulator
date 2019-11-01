@@ -111,6 +111,9 @@ function bashEmulator (initialState) {
       if (!state.fileSystem[normalizedPath]) {
         return Promise.reject(normalizedPath + ': No such file or directory')
       }
+      if (state.fileSystem[normalizedPath]['type'] === 'file') {
+        return Promise.reject("Not a directory");
+      }
       state.workingDirectory = normalizedPath
       return Promise.resolve()
     },
